@@ -51,9 +51,10 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public void renderModels() {	
+		//при условии что все *.obj модели будут иметь одинаковую структуру
 		for(int i = 1; i <= 1; i++) {
 			String model = "";
-			//тут добавляем информацию о моделях
+			//тут добавляем название моделей
 			switch(i) {
 			case(1):
 				model = "customArmorModel";
@@ -64,7 +65,7 @@ public class ClientProxy extends CommonProxy {
 
 			for(int j = 1; j <= 8; j++) {
 				String part = "";
-				//тут добавляем информацию о частях модели
+				//тут добавляем название частей модели
 				switch(j) {
 				case(1):
 					part = "head";
