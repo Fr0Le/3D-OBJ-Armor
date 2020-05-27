@@ -31,6 +31,7 @@ public class ClientProxy extends CommonProxy {
 		super.Init();
 		renderIcons();
 		renderEquip();	
+		renderModels();
 	}
 
 	@Override
@@ -38,15 +39,64 @@ public class ClientProxy extends CommonProxy {
 		super.postInit(); 
 	}
 
+	public void renderEquip() {	
+		MinecraftForge.EVENT_BUS.register(new PlayerRenderHandler());		
+	}
+
 	public void renderIcons() {	
 		MinecraftForgeClient.registerItemRenderer(LoadItemArmor.customHelmet, new RenderItemArmor.renderItemHelmet());
 		MinecraftForgeClient.registerItemRenderer(LoadItemArmor.customBody, new RenderItemArmor.renderItemBody());
 		MinecraftForgeClient.registerItemRenderer(LoadItemArmor.customPants, new RenderItemArmor.renderItemPants());
-		MinecraftForgeClient.registerItemRenderer(LoadItemArmor.customBoots, new RenderItemArmor.renderItemBoots());		
+		MinecraftForgeClient.registerItemRenderer(LoadItemArmor.customBoots, new RenderItemArmor.renderItemBoots());			
 	}
 
-	public void renderEquip() {	
-		MinecraftForge.EVENT_BUS.register(new PlayerRenderHandler());		
+	public void renderModels() {	
+		for(int i = 1; i <= 1; i++) {
+			String model = "";
+			//тут добавляем информацию о моделях
+			switch(i) {
+			case(1):
+				model = "customArmorModel";
+			break;
+			default:				
+				break;
+			}
+
+			for(int j = 1; j <= 8; j++) {
+				String part = "";
+				//тут добавляем информацию о частях модели
+				switch(j) {
+				case(1):
+					part = "head";
+				break;
+				case(2):
+					part = "body";
+				break;
+				case(3):
+					part = "bodyHandLeft";
+				break;
+				case(4):
+					part = "bodyHandRight";
+				break;		
+				case(5):
+					part = "legLeft";
+				break;
+				case(6):
+					part = "legRight";
+				break;
+				case(7):
+					part = "bootLeft";
+				break;
+				case(8):
+					part = "bootRight";
+				break;
+				default:
+					break;
+				}
+
+				GL11.glCallList(ClientProxy.getRenderPart(model, part));
+			}
+		}
 	}
 
 	public static int getRenderPart(String model, String partName) {
@@ -58,6 +108,7 @@ public class ClientProxy extends CommonProxy {
 		AdvancedModelLoader.loadModel(new ResourceLocation(Info.modid, "models/armor/" + model + ".obj")).renderPart(partName);
 		GL11.glEndList();
 		hash.put(model + "_" + partName, displayList);
+		System.out.println("" + model + "_" + partName);
 		return displayList;
 	}
 
